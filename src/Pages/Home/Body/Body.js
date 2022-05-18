@@ -7,7 +7,7 @@ import Services from '../Services/Services';
 
 const Body = () => {
   return (
-    <div>
+    <div className="">
       <div class="hero min-h-screen  bg-[url('/src/assets/images/bg.png')] ">
         <div class="hero-content flex-col lg:flex-row-reverse ">
           <img src={chairimg} class="max-w-sm rounded-lg shadow-2xl  ml-10" />
@@ -25,7 +25,7 @@ const Body = () => {
         </div>
       </div>
       {/* cards */}
-      <div className="grid grid-rows-4 lg:grid-rows-1  grid-flow-col gap-4 mx-6 mt-8  ">
+      <div className="grid grid-rows-4 lg:grid-rows-1  grid-flow-col gap-4  mx-6 mt-8  ">
         <div class="card lg:card-side bg-base-100 shadow-xl bg-gradient-to-r from-secondary  to-primary w-96">
           <figure>
             <img className="ml-3" src={clock} alt="clock" />
@@ -54,7 +54,9 @@ const Body = () => {
           </div>
         </div>
       </div>
-      <Services></Services>
+      <div className="mt-36 mx-12 ">
+        <Services></Services>
+      </div>
     </div>
   );
 };

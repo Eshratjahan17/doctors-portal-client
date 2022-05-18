@@ -3,11 +3,14 @@ import clock from '../../../assets/icons/clock.svg';
 import marker from '../../../assets/icons/marker.svg';
 import phone from '../../../assets/icons/phone.svg';
 import chairimg from '../../../assets/images/chair.png';
+import ContactForm from '../../ContactForm';
+import Appointment from '../Appointment/Appointment';
 import Services from '../Services/Services';
+import Testomonials from '../Testomonials';
 
 const Body = () => {
   return (
-    <div className="">
+    <div className="mx-12">
       <div class="hero min-h-screen  bg-[url('/src/assets/images/bg.png')] ">
         <div class="hero-content flex-col lg:flex-row-reverse ">
           <img src={chairimg} class="max-w-sm rounded-lg shadow-2xl  ml-10" />
@@ -54,9 +57,12 @@ const Body = () => {
           </div>
         </div>
       </div>
-      <div className="mt-36 mx-12 ">
+      <div className="mt-36  ">
         <Services></Services>
       </div>
+      <Appointment></Appointment>
+      <Testomonials></Testomonials>
+      <ContactForm></ContactForm>
     </div>
   );
 };

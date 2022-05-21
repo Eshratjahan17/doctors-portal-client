@@ -1,55 +1,74 @@
 import React from 'react';
-import { useSignInWithEmailAndPassword, useSignInWithGoogle } from "react-firebase-hooks/auth";
-import { useForm } from 'react-hook-form';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from "react-firebase-hooks/auth";
+import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
 import Loading from '../../Shared/Loading';
 
-
-const LogIn = () => {
-   const {
-     register,
-     formState: { errors },
-     handleSubmit,
-   } = useForm();
-  const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth);
-
-    const location = useLocation();
-    const navigate = useNavigate();
-   let errorMessage;
-    const from = location?.state?.from?.pathname || "/";
-  const handleSignIn=()=>{
-    signInWithGoogle()
-     .then(() =>{
-      navigate(from, { replace: true });
-    })
-  }
-  
-  if (user || googleUser) {
+const Signup = () => {
+  const [signInWithGoogle, googleUser, googleLoading, googleError] =
+    useSignInWithGoogle(auth);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+     const location = useLocation();
+     const navigate = useNavigate();
+     const [createUserWithEmailAndPassword, user, loading, error] =
+       useCreateUserWithEmailAndPassword(auth);
+     let errorMessage;
+     const from = location?.state?.from?.pathname || "/";
+  const onSubmit = (data) => {
+    createUserWithEmailAndPassword(data.email, data.password);
+    console.log(data.email, data.Password);
+  }; 
+  if (user) {
     console.log(user);
   }
-    if(error ||googleError){
-      errorMessage = (
-        <p className="text-red-600">
-          {error?.message || googleError?.message}
-        </p>
-      );
-    }
-    if(loading ||googleLoading){
-      return <Loading></Loading>
-    }
-  const onSubmit = (data) =>{
-    signInWithEmailAndPassword(data.email, data.password);
-    console.log(data.email,data.Password);
-  } 
+  if (error ) {
+    errorMessage = (
+      <p className="text-red-600">{error?.message }</p>
+    );
+  }
+  if (loading ) {
+    return <Loading></Loading>;
+  }
+   const handleSignIn = () => {
+     signInWithGoogle()
+     .then(() => {
+       navigate(from, { replace: true });
+     });
+   };
   return (
     <div className="flex justify-center items-center h-screen">
       <div class="card w-96 bg-base-100 shadow-xl">
         <div class="card-body text-center ">
-          <h2 class="text-bold text-secondary">Log in</h2>
+          <h2 class="text-bold text-secondary">Sign Up</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
+            <div class="form-control w-full max-w-xs">
+              <label class="label">
+                <span class="label-text">Name </span>
+              </label>
+              <input
+                type="text"
+                placeholder="Name here"
+                {...register("name", {
+                  required: {
+                    value: true,
+                    message: "Name is reqiured",
+                  },
+                })}
+                class="input input-bordered w-full max-w-xs"
+              />
+              <label class="label">
+                {errors.name?.type === "required" && (
+                  <span class="label-text-alt text-red-500">
+                    {errors.name.message}
+                  </span>
+                )}
+              </label>
+            </div>
             <div class="form-control w-full max-w-xs">
               <label class="label">
                 <span class="label-text">You Email </span>
@@ -118,19 +137,24 @@ const LogIn = () => {
             <input
               className="btn w-full max-w-xs text-white"
               type="submit"
-              value="Log in"
+              value="Sign up"
             />
           </form>
 
           <div class="divider">OR</div>
           <button onClick={handleSignIn} class="btn  bg-secondary btn-success">
-            Sign in with Google
+            Continue with Google
           </button>
-          <p>Didn't have Any Account?<Link className='text-blue-600' to="/signup"> Signup</Link></p>
+          <p>
+            Didn't have Any Account?
+            <Link className="text-blue-600" to="/login">
+              Login
+            </Link>
+          </p>
         </div>
       </div>
     </div>
   );
 };
 
-export default LogIn;
+export default Signup;

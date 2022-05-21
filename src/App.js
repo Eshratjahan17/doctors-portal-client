@@ -3,6 +3,7 @@ import './App.css';
 import AppoinmentPage from './Pages/AppoinmentPage/AppoinmentPage';
 import About from './Pages/Home/About/About';
 import Home from './Pages/Home/Home/Home';
+import Signup from './Pages/Home/Home/Signup';
 import LogIn from './Pages/Home/Log in/LogIn';
 import Reviwes from './Pages/Home/Reviwes/Reviwes';
 import NotFound from './Pages/NotFound/NotFound';
@@ -19,6 +20,7 @@ function App() {
         <Route path="/reviwes" element={<Reviwes/>} />
         <Route path="/appoinment" element={<AppoinmentPage></AppoinmentPage>} />
         <Route path="/login" element={<LogIn/>} />
+        <Route path="/signup" element={<Signup/>} />
         <Route path="*" element={<NotFound/>} />
       </Routes>
 

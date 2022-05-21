@@ -1,8 +1,9 @@
 import React from 'react';
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
+import { useSignInWithEmailAndPassword, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
+import Loading from '../../Shared/Loading';
 
 
 const LogIn = () => {
@@ -11,11 +12,13 @@ const LogIn = () => {
      formState: { errors },
      handleSubmit,
    } = useForm();
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
 
     const location = useLocation();
     const navigate = useNavigate();
-
+   let errorMessage;
     const from = location?.state?.from?.pathname || "/";
   const handleSignIn=()=>{
     signInWithGoogle()
@@ -23,12 +26,23 @@ const LogIn = () => {
       navigate(from, { replace: true });
     })
   }
+  
   if(user){
-    console.log(user);
+    console.log(user)
   }
-
+    if(error ||googleError){
+      errorMessage = (
+        <p className="text-red-600">
+          {error?.message || googleError?.message}
+        </p>
+      );
+    }
+    if(loading ||googleLoading){
+      return <Loading></Loading>
+    }
   const onSubmit = (data) =>{
-    console.log(data);
+    signInWithEmailAndPassword(data.email, data.password);
+    console.log(data.email,data.Password);
   } 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -100,7 +114,7 @@ const LogIn = () => {
                 )}
               </label>
             </div>
-
+            {errorMessage};
             <input
               className="btn w-full max-w-xs text-white"
               type="submit"

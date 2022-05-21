@@ -21,7 +21,7 @@ const Signup = () => {
      const from = location?.state?.from?.pathname || "/";
   const onSubmit = (data) => {
     createUserWithEmailAndPassword(data.email, data.password);
-    console.log(data.email, data.Password);
+    console.log(data.email, data.password);
   }; 
   if (user) {
     console.log(user);
@@ -108,7 +108,7 @@ const Signup = () => {
               <input
                 type="Password"
                 placeholder="Password here"
-                {...register("Password", {
+                {...register("password", {
                   required: {
                     value: true,
                     message: "Password is reqiured",

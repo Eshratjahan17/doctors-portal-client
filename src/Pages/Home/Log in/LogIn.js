@@ -42,7 +42,7 @@ const LogIn = () => {
     }
   const onSubmit = (data) =>{
     signInWithEmailAndPassword(data.email, data.password);
-    console.log(data.email,data.Password);
+    console.log(data.email,data.password);
   } 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -89,7 +89,7 @@ const LogIn = () => {
               <input
                 type="Password"
                 placeholder="Password here"
-                {...register("Password", {
+                {...register("password", {
                   required: {
                     value: true,
                     message: "Password is reqiured",
